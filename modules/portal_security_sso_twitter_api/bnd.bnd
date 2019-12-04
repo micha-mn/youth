@@ -1,0 +1,7 @@
+Bundle-Name: Liferay Portal Security SSO Twitter Connect
+Bundle-SymbolicName: com.liferay.portal.security.sso.twitter.connect.auth
+Bundle-Version: 1.0.0
+Export-Package: \
+	com.liferay.portal.security.sso.twitter.connect,\
+	com.liferay.portal.security.sso.twitter.connect.configuration,\
+	com.liferay.portal.security.sso.twitter.connect.constants

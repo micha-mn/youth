@@ -1,0 +1,4 @@
+Bundle-Name: landing-page
+Bundle-SymbolicName: landing.page
+Bundle-Version: 1.0.0
+Export-Package: landing.page.constants

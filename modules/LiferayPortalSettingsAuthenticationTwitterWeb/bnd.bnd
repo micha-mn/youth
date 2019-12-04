@@ -1,0 +1,4 @@
+Bundle-Name: LiferayPortalSettingsAuthenticationTwitterWeb
+Bundle-SymbolicName: com.liferay.portal.settings.authentication.twitter.web
+Bundle-Version: 1.0.0
+Web-ContextPath: /login-authentication-twitter-web

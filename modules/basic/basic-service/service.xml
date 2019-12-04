@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<!DOCTYPE service-builder PUBLIC "-//Liferay//DTD Service Builder 7.2.0//EN" "http://www.liferay.com/dtd/liferay-service-builder_7_2_0.dtd">
+
+<service-builder dependency-injector="ds" package-path="basic">
+	<namespace>FOO</namespace>
+	<!--<entity data-source="sampleDataSource" local-service="true" name="Foo" remote-service="false" session-factory="sampleSessionFactory" table="foo" tx-manager="sampleTransactionManager uuid="true"">-->
+	<entity local-service="true" name="Foo" remote-service="true" uuid="true">
+
+		<!-- PK fields -->
+
+		<column name="fooId" primary="true" type="long" />
+
+		<!-- Group instance -->
+
+		<column name="groupId" type="long" />
+
+		<!-- Audit fields -->
+
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+
+		<!-- Other fields -->
+
+		<column name="field1" type="String" />
+		<column name="field2" type="boolean" />
+		<column name="field3" type="int" />
+		<column name="field4" type="Date" />
+		<column name="field5" type="String" />
+		<!-- Order -->
+
+		<order by="asc">
+			<order-column name="field1" />
+		</order>
+
+		<!-- Finder methods -->
+
+		<!-- References -->
+
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+	  <entity name="EventAttributes" table="EventAttributes" local-service="true" remote-service="true" >
+     <column name="id"                type="long" primary="true" id-type="increment" convert-null="true"  />
+     <column name="attributeNumber"   type="String"></column>
+     <column name="attributeName"     type="String"></column>												   
+     <column name="eventId"           type="String"></column>
+   </entity>
+     <entity name="TableNewTest" local-service="true" remote-service="true"  uuid="true" table="TableNewTest">
+     <column name="id"                type="long" primary="true" id-type="increment" convert-null="true"  />
+     <column name="Title"             type="String"></column>
+     <column name="Description"       type="String"></column>
+     <column name="Image"             type="Blob"></column>
+     <column name="eventId"           type="String"></column>
+   </entity>
+      <entity name="EventHighLights" table="EventHighLights" local-service="true" uuid="true" remote-service="true">
+     <column name="id"                type="long" primary="true" id-type="increment" convert-null="true"  />
+     <column name="Title"             type="String"></column>
+     <column name="Description"       type="String"></column>
+     <column name="Image"             type="Blob"></column>
+     <column name="eventId"           type="String"></column>
+   </entity>
+    <entity name="EventFAQs" table="EventFAQs" local-service="true" uuid="true" remote-service="true">
+      <column name="id"              type="long" primary="true" id-type="increment" convert-null="true"  />
+      <column name="Question"        type="String"></column>
+      <column name="Answer"          type="String"></column>
+       <column name="eventId"          type="String"></column>
+    </entity>
+      <entity name="EventTimeline" table="EventTimeline" local-service="true" uuid="true" remote-service="true">
+      <column name="id"              type="long" primary="true" id-type="increment"/>
+      <column name="Title"        type="String"></column>
+      <column name="Description"    type="String"></column>
+      <column name="EventStartDay"        type="Date"></column>
+      <column name="EventendDay"        type="Date"></column>
+      <column name="eventId"          type="String"></column>
+    </entity>   
+     <entity name="Journey" local-service="true" remote-service="false" table="journey">
+		<column name="journeyId" type="long" primary="true" id-type="increment"></column>
+		<column name="userId" type="String"></column>
+		<column name="title" type="String"></column>
+		<column name="description" type="String"></column>
+		<column name="pictureBlob" type="Blob"></column>
+	</entity> 
+      <entity name="EventSpeakers" table="EventSpeakers" local-service="true" uuid="true" remote-service="true">
+     <column name="id"              type="long" primary="true" id-type="increment"/>
+     <column name="position"        type="String"></column>
+     <column name="speakerImage"    type="Blob"></column>
+      <column name="speakerImageString"    type="String"></column>
+     <column name="nationality"     type="String"></column>
+     <column name="email"           type="String"></column>
+     <column name="firstName"       type="String"></column>
+	<column name="userId"            type="String"></column>														 
+     <column name="lastName"         type="String"></column>
+	<column name="isNotificationSent" type="String"></column>														 
+     <column name="eventId"          type="String"></column>
+     <column name="isNotifEnabled"     type="String"></column>
+    </entity>
+    <entity local-service="true" name="formeventusertable" remote-service="true" uuid="true" table="formeventusertable">
+		<column name="ID" primary="true" type="long" id-type="increment"/>
+		<column name="userId" type="String" />
+		<column name="eventId" type="String"/>
+		<column name="ddmFormInstanceId" type="String" />
+		<column name="ddmFormInstanceRecordVersionId" type="String" />
+		<column name="statusCol" type="String" />
+		<column name="formId" type="String" />
+		<column name="reviewerUserId" type="String" />
+		<column name="reviewerComments" type="String" />
+		<column name="ddmFormInstanceRecordVersion" type="String" />
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+   <entity local-service="true" name="RegisterEvent" remote-service="true" uuid="true" table="RegisterEvent">
+		<column name="Id" primary="true" type="long" id-type="increment"/>
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="registeredUserId" type="String" />
+		<column name="eventId" type="String" />
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+	<entity local-service="true" name="ImageCalendar" remote-service="true" uuid="true" table="ImageCalendar">
+		<column name="Id" primary="true" type="long" id-type="increment"/>
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="data" type="Blob" />
+		<column name="eventId" type="String" />
+		<reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+	<entity local-service="true" name="EventAssigneeTable" remote-service="true" uuid="true" table="EventAssigneeTable">
+		<column name="Id" primary="true" type="int" />
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="name" type="String" />
+		<column name="eventId" type="int" />
+		<column name="assigneeId" type="int" />
+        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+	<entity local-service="true" name="profileInfo" remote-service="true" uuid="true" table="profileInfo">
+		<column name="id" primary="true" type="long" id-type="increment"/>
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="title" type="String" />
+		<column name="firstName" type="String" />
+		<column name="fatherName" type="String" />
+		<column name="grandfatherName" type="String" />
+		<column name="familyName" type="String" />
+        <column name="email" type="String"></column>
+        <column name="primaryMobileNo" type="long"></column>
+        <column name="secondaryMobileNo" type="long"></column>
+        <column name="gender" type="String"></column>
+        <column name="nationality" type="String"></column>
+        <column name="nationalId" type="long"></column>
+        <column name="passportId" type="long"></column>
+        <column name="passportExpireDate" type="Date"></column>
+        <column name="dateOfBirth" type="Date"></column>
+        <column name="currentEducationTrainingStatus" type="String"></column>
+        <column name="countryOfResidence" type="String"></column>
+        <column name="cityOfResidence" type="String"></column>
+        <column name="nationalAddress" type="String"></column>
+        <column name="postalCode" type="String"></column>
+        <column name="street" type="String"></column>
+        <column name="state" type="String"></column>
+        <column name="about" type="String"></column>
+        <column name="profileimage" type="String"></column>
+        <column name="universitygeneral" type="String"></column>
+		<column name="currentworkposition" type="String"></column> 
+	    <column name="currentworklocation" type="String"></column>
+	    <column name="educationField" type="String"></column> 
+	    <column name="isEmailVerified" type="String"></column> 
+	    <column name="isMobileVerified" type="String"></column> 
+	    <reference entity="AssetEntry" package-path="com.liferay.portlet.asset" />
+		<reference entity="AssetTag" package-path="com.liferay.portlet.asset" />
+	</entity>
+		<entity local-service="true" remote-service="true" uuid="true"  name="profileEducation" table="profileEducation">
+            <column name="Id" type="long" primary="true" id-type="increment" convert-null="true"/>
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+        <column name="profileId" type="long"></column>
+        <column name="educationCategory" type="String"></column>
+        <column name="degree" type="String"></column>
+        <column name="fieldOfStudy" type="String"></column>
+        <column name="startYear" type="String"></column>
+        <column name="endYear" type="String"></column>
+        <column name="grade" type="String"></column>
+        <column name="description" type="String"></column> 
+        </entity>
+      <entity local-service="true" remote-service="true" uuid="true" name="profileWorkExperience" table="profileWorkExperience">
+        <column name="Id" type="long" primary="true" id-type="increment"/>
+        <column name="groupId" type="long" />
+        <column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+        <column name="profileId" type="long"></column>
+        <column name="title" type="String"></column>
+        <column name="company" type="String"></column>
+        <column name="location" type="String"></column>
+        <column name="startDate" type="Date"></column>
+        <column name="endDate" type="Date"></column>
+        <column name="description" type="String"></column>
+        <column name="currentWorkStatus" type="String"></column>
+        <column name="workExperience" type="String"></column>
+        </entity> 
+     <entity local-service="true" remote-service="true" uuid="true" name="profileSkills" table="profileSkills">
+        <column name="Id" type="long" primary="true" id-type="increment"/>
+        <column name="groupId" type="long" />
+        <column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+        <column name="profileId" type="long"></column>
+        <column name="skill" type="String"></column>
+      </entity>  
+      <entity local-service="true" remote-service="true" uuid="true" name="profileLicensesCertifications" table="profileLicensesCertifications">
+		<column name="Id" type="long" primary="true" id-type="increment"/>
+        <column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="profileId" type="long"></column>
+        <column name="name" type="String"></column>
+        <column name="issuingOrganization" type="String"></column>
+        <column name="issueDate" type="Date"></column>
+        <column name="expirationDate" type="Date"></column>
+        <column name="credentialID" type="long"></column>
+        <column name="credentialURL" type="String"></column>
+ 		<column name="notExpire" type="boolean"></column>
+       </entity>
+      <entity local-service="true" remote-service="true" uuid="true" name="ProfileJobWishList" table="ProfileJobWishList">
+		<column name="Id" type="long" primary="true" id-type="increment"/>
+        <column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+        <column name="jobwishlist" type="String"></column>
+      </entity> 
+      	<entity local-service="true" remote-service="true" uuid="true"  name="profileImage" table="profileImage">
+	     <column name="id" type="long" primary="true" id-type="increment" convert-null="true"/>
+	    <column name="userId" type="long" />
+        <column name="image" type="Blob"></column>
+     </entity>
+     <entity local-service="true" remote-service="true" uuid="true" name="profileIntrest" table="profileIntrest">
+		<column name="Id" type="long" primary="true" id-type="increment"/>
+		<column name="groupId" type="long" />
+		<column name="companyId" type="long" />
+		<column name="userId" type="long" />
+		<column name="userName" type="String" />
+		<column name="createDate" type="Date" />
+		<column name="modifiedDate" type="Date" />
+		<column name="profileId" type="long"></column>
+        <column name="intrest" type="String"></column>
+      </entity>  
+      <entity name="ProfileTestimonial" local-service="true" remote-service="true"  uuid="true" table="ProfileTestimonial">   
+        <column name="id"                type="long" primary="true" id-type="increment"/>
+        <column name="groupId"           type="long" />
+        <column name="companyId"         type="long" />
+		<column name="userId"            type="long" />
+		<column name="userName"          type="String" />
+		<column name="createDate"        type="Date" />
+		<column name="modifiedDate"      type="Date" />
+		<column name="testimonialprovidername"           type="String"/>
+        <column name="testimonialprovideremail"           type="String"/>
+        <column name="testimonialprovorgname" type="String"/>
+        <column name="testimonialprovidertitle"          type="String"/>
+        <column name="testimonialprivatemessage"         type="String"/> 
+        <column name="imagePreview"                      type="String"/>
+      </entity> 
+</service-builder>

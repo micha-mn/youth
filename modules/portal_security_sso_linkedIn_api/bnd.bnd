@@ -1,0 +1,4 @@
+Bundle-Name: portal_security_sso_linkedIn_api
+Bundle-SymbolicName: portal_security_sso_linkedIn_api
+Bundle-Version: 1.0.0
+Export-Package: portal_security_sso_linkedIn_api.constants

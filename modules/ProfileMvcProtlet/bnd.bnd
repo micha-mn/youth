@@ -1,0 +1,4 @@
+Bundle-Name: ProfileMvcProtlet
+Bundle-SymbolicName: ProfileMvcProtlet
+Bundle-Version: 1.0.0
+Export-Package: ProfileMvcProtlet.constants

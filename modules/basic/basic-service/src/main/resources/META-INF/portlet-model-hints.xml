@@ -1,0 +1,280 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="basic.model.EventAssigneeTable">
+		<field name="uuid" type="String" />
+		<field name="Id" type="int" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="eventId" type="int" />
+		<field name="assigneeId" type="int" />
+	</model>
+	<model name="basic.model.EventAttributes">
+		<field name="id" type="long" />
+		<field name="attributeNumber" type="String" />
+		<field name="attributeName" type="String" />
+		<field name="eventId" type="String" />
+	</model>
+	<model name="basic.model.EventFAQs">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="Question" type="String" />
+		<field name="Answer" type="String" />
+		<field name="eventId" type="String" />
+	</model>
+	<model name="basic.model.EventHighLights">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="Title" type="String" />
+		<field name="Description" type="String" />
+		<field name="Image" type="Blob" />
+		<field name="eventId" type="String" />
+	</model>
+	<model name="basic.model.EventSpeakers">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="position" type="String" />
+		<field name="speakerImage" type="Blob" />
+		<field name="speakerImageString" type="String" />
+		<field name="nationality" type="String" />
+		<field name="email" type="String" />
+		<field name="firstName" type="String" />
+		<field name="userId" type="String" />
+		<field name="lastName" type="String" />
+		<field name="isNotificationSent" type="String" />
+		<field name="eventId" type="String" />
+		<field name="isNotifEnabled" type="String" />
+	</model>
+	<model name="basic.model.EventTimeline">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="Title" type="String" />
+		<field name="Description" type="String" />
+		<field name="EventStartDay" type="Date" />
+		<field name="EventendDay" type="Date" />
+		<field name="eventId" type="String" />
+	</model>
+	<model name="basic.model.Foo">
+		<field name="uuid" type="String" />
+		<field name="fooId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="field1" type="String" />
+		<field name="field2" type="boolean" />
+		<field name="field3" type="int" />
+		<field name="field4" type="Date" />
+		<field name="field5" type="String" />
+	</model>
+	<model name="basic.model.formeventusertable">
+		<field name="uuid" type="String" />
+		<field name="ID" type="long" />
+		<field name="userId" type="String" />
+		<field name="eventId" type="String" />
+		<field name="ddmFormInstanceId" type="String" />
+		<field name="ddmFormInstanceRecordVersionId" type="String" />
+		<field name="statusCol" type="String" />
+		<field name="formId" type="String" />
+		<field name="reviewerUserId" type="String" />
+		<field name="reviewerComments" type="String" />
+		<field name="ddmFormInstanceRecordVersion" type="String" />
+	</model>
+	<model name="basic.model.ImageCalendar">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="data" type="Blob" />
+		<field name="eventId" type="String" />
+	</model>
+	<model name="basic.model.Journey">
+		<field name="journeyId" type="long" />
+		<field name="userId" type="String" />
+		<field name="title" type="String" />
+		<field name="description" type="String" />
+		<field name="pictureBlob" type="Blob" />
+	</model>
+	<model name="basic.model.profileEducation">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="profileId" type="long" />
+		<field name="educationCategory" type="String" />
+		<field name="degree" type="String" />
+		<field name="fieldOfStudy" type="String" />
+		<field name="startYear" type="String" />
+		<field name="endYear" type="String" />
+		<field name="grade" type="String" />
+		<field name="description" type="String" />
+	</model>
+	<model name="basic.model.profileImage">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="userId" type="long" />
+		<field name="image" type="Blob" />
+	</model>
+	<model name="basic.model.profileInfo">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="title" type="String" />
+		<field name="firstName" type="String" />
+		<field name="fatherName" type="String" />
+		<field name="grandfatherName" type="String" />
+		<field name="familyName" type="String" />
+		<field name="email" type="String" />
+		<field name="primaryMobileNo" type="long" />
+		<field name="secondaryMobileNo" type="long" />
+		<field name="gender" type="String" />
+		<field name="nationality" type="String" />
+		<field name="nationalId" type="long" />
+		<field name="passportId" type="long" />
+		<field name="passportExpireDate" type="Date" />
+		<field name="dateOfBirth" type="Date" />
+		<field name="currentEducationTrainingStatus" type="String" />
+		<field name="countryOfResidence" type="String" />
+		<field name="cityOfResidence" type="String" />
+		<field name="nationalAddress" type="String" />
+		<field name="postalCode" type="String" />
+		<field name="street" type="String" />
+		<field name="state" type="String" />
+		<field name="about" type="String" />
+		<field name="profileimage" type="String" />
+		<field name="universitygeneral" type="String" />
+		<field name="currentworkposition" type="String" />
+		<field name="currentworklocation" type="String" />
+		<field name="educationField" type="String" />
+		<field name="isEmailVerified" type="String" />
+		<field name="isMobileVerified" type="String" />
+	</model>
+	<model name="basic.model.profileIntrest">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="profileId" type="long" />
+		<field name="intrest" type="String" />
+	</model>
+	<model name="basic.model.ProfileJobWishList">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="jobwishlist" type="String" />
+	</model>
+	<model name="basic.model.profileLicensesCertifications">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="profileId" type="long" />
+		<field name="name" type="String" />
+		<field name="issuingOrganization" type="String" />
+		<field name="issueDate" type="Date" />
+		<field name="expirationDate" type="Date" />
+		<field name="credentialID" type="long" />
+		<field name="credentialURL" type="String" />
+		<field name="notExpire" type="boolean" />
+	</model>
+	<model name="basic.model.profileSkills">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="profileId" type="long" />
+		<field name="skill" type="String" />
+	</model>
+	<model name="basic.model.ProfileTestimonial">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="testimonialprovidername" type="String" />
+		<field name="testimonialprovideremail" type="String" />
+		<field name="testimonialprovorgname" type="String" />
+		<field name="testimonialprovidertitle" type="String" />
+		<field name="testimonialprivatemessage" type="String" />
+		<field name="imagePreview" type="String" />
+	</model>
+	<model name="basic.model.profileWorkExperience">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="profileId" type="long" />
+		<field name="title" type="String" />
+		<field name="company" type="String" />
+		<field name="location" type="String" />
+		<field name="startDate" type="Date" />
+		<field name="endDate" type="Date" />
+		<field name="description" type="String" />
+		<field name="currentWorkStatus" type="String" />
+		<field name="workExperience" type="String" />
+	</model>
+	<model name="basic.model.RegisterEvent">
+		<field name="uuid" type="String" />
+		<field name="Id" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="registeredUserId" type="String" />
+		<field name="eventId" type="String" />
+	</model>
+	<model name="basic.model.TableNewTest">
+		<field name="uuid" type="String" />
+		<field name="id" type="long" />
+		<field name="Title" type="String" />
+		<field name="Description" type="String" />
+		<field name="Image" type="Blob" />
+		<field name="eventId" type="String" />
+	</model>
+</model-hints>

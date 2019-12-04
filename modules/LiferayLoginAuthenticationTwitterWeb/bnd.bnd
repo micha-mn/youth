@@ -1,0 +1,7 @@
+Bundle-Name: LiferayLoginAuthenticationTwitterWeb
+Bundle-SymbolicName: com.liferay.login.authentication.twitter.web
+Bundle-Version: 1.0.0
+Import-Package: \
+	android.os.*;resolution:=optional,\
+	com.google.appengine.api.urlfetch.*;resolution:=optional,\
+	*

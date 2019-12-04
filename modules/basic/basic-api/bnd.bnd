@@ -1,0 +1,10 @@
+Bundle-Name: basic-api
+Bundle-SymbolicName: basic.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	basic.exception,\
+	basic.model,\
+	basic.service,\
+	basic.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../basic-service/service.xml

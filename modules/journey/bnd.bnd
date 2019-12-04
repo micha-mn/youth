@@ -1,0 +1,4 @@
+Bundle-Name: journey
+Bundle-SymbolicName: journey
+Bundle-Version: 1.0.0
+Export-Package: journey.constants

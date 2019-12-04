@@ -1,0 +1,4 @@
+Bundle-Name: LiferayLoginAuthenticationLinkedInWeb
+Bundle-SymbolicName: LiferayLoginAuthenticationLinkedInWeb
+Bundle-Version: 1.0.0
+Export-Package: LiferayLoginAuthenticationLinkedInWeb.constants

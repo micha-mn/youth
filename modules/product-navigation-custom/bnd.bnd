@@ -1,0 +1,4 @@
+Bundle-Name: product-navigation-custom
+Bundle-SymbolicName: product.navigation.custom
+Bundle-Version: 1.0.0
+Fragment-Host: com.liferay.product.navigation.taglib;bundle-version="4.1.0"

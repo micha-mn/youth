@@ -1,0 +1,4 @@
+Bundle-Name: video-gallery
+Bundle-SymbolicName: video.gallery
+Bundle-Version: 1.0.0
+Export-Package: video.gallery.constants

@@ -1,0 +1,1686 @@
+<%@ include file="/init.jsp"%>
+<%@page import="com.liferay.portal.kernel.util.WebKeys"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.liferay.portal.kernel.theme.ThemeDisplay"%>
+<%@page import="com.liferay.portal.kernel.service.UserLocalServiceUtil"%>
+<%@page import="com.liferay.portal.kernel.model.User"%>
+<%-- <%@page import="basic.service.JourneyLocalServiceUtil"%> --%>
+<%@page import="java.util.List"%>
+<%@page import="com.liferay.portal.kernel.service.RoleLocalServiceUtil"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="java.text.DateFormatSymbols"%>
+<%@page import="java.util.Enumeration"%>
+
+<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet"%>
+<%@ taglib uri="http://liferay.com/tld/portlet" prefix="liferay-portlet"%>
+<%@ taglib prefix="clay" uri="http://liferay.com/tld/clay" %>
+<%
+String dateOfBirth = "";
+%>
+
+<% String baseUrl = renderResponse.encodeURL(renderRequest.getContextPath());
+   String imageUrl = renderResponse.encodeURL(renderRequest.getContextPath()) + "/images/SVG-removebg-preview.png";
+   String langId = themeDisplay.getLanguageId().equalsIgnoreCase("ar_SA")? "ar" : "en";
+
+%>
+
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<%-- <link rel="stylesheet" href="<%=request.getContextPath()%>/css/fontawesome.scss"> --%>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+/*, .stock-images > div:last-child().ar
+,.stock-images > div:last-child().en*/
+
+/* .control-menu-level-1 {
+   background-color: transparent;
+   color: #869CAD;
+   background-image: none !important;
+}
+.container-menu {
+   margin-top: -55px;
+   height: 160px;
+   position: relative;
+   background: url(/o/new-misk-theme/images/landing/topmenu.png);
+   width: -webkit-fill-available;
+   background-repeat: no-repeat;
+   background-size: cover;
+   margin-top: -20px;
+}
+.tools-control-group > .control-menu-nav {
+display:none;
+} */
+
+#timeline.ar {
+	left: 3.5%;
+}
+
+.description-p {
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+}
+
+.icon-img-center {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    position: relative;
+    top: 12px;
+    /* width: 63%; */
+    height: 25px;
+}
+
+.background-gradiant {
+	
+}
+
+.stock-images [type="radio"] + label div.image.selected-radio + span {
+	color: rgba(12, 162, 205, 1);
+}
+
+div.image.selected-radio {
+	color: rgba(12, 162, 205, 1);
+}
+
+.displayNone {
+	display: none!important;
+}
+
+.stock-images .lexicon-icon {
+	position: absolute;
+    right: 16px;
+    top: 8px;
+    fill: rgba(12, 162, 205, 1);
+}
+
+.custom-design {
+	border: 0px;
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+    height: 59px;
+    background-size: 30%!important;
+    background-image: url(/o/journey/images/0.svg);
+    margin-top: 3%;
+}
+
+.div-green-dot {
+	justify-content: center;
+}
+.div-green-dot span {
+	    text-align: center;
+    top: 3px;
+    left: 3px;
+    background: rgba(125, 183, 44, 1);
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+}
+.div.col-12:nth-child(1) {
+	padding-top: 0%;
+}
+
+   .stock-images > div:not(:nth-child(1)):not(:last-child) {
+    	margin: auto;
+    padding: 0% 7.5px!important;
+    }
+.stock-images > div:nth-child(1).en,
+.stock-images > div:nth-child(2).en,
+.stock-images > div:nth-child(9).en,
+.stock-images > div:nth-child(10).en {
+	padding-left : 0%!important;
+	padding-right: 7.5px!important;
+}
+
+.stock-images > div:nth-child(16).en,
+.stock-images > div:nth-child(15).en,
+.stock-images > div:nth-child(8).en,
+.stock-images > div:nth-child(7).en {
+	padding-right : 0%!important;
+	padding-left: 7.5px!important; 
+}
+
+/*.stock-images > div:nth-child(1).ar {
+	padding-right : 0%;
+	padding-left: 7.5px;
+}*/
+
+.stock-images col-3.s6.m3 {
+	padding: 0% .25em;
+}
+
+.privacy-check {
+    text-align: center;
+    position: absolute;
+    top: 0px;
+    left: -5px;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+}
+
+.privacy-check svg {
+    fill: white;
+    width: 9px;
+    height: 9px;
+    bottom: 3px;
+    position: relative;
+    border: 1px solid transparent;
+    border-radius: 50%;
+}
+
+.timeline-panel:hover .privacy-edit a {
+	display: block;
+}
+
+.timeline-panel .privacy-edit a {
+	display: none;
+}
+
+#timeline {
+font-size: 1rem;
+    opacity: .5;
+    position: relative;
+    left: 7%;
+    margin-bottom: 0%;
+    padding-top: 3%;
+}
+.privacy-edit div:nth-child(1) {
+	margin: auto;
+    padding: 0% 5%;
+    width: 80px;
+    text-align: center;
+}
+
+.privacy-edit div:nth-child(1).en {
+	padding-right: 10%;
+}
+
+.privacy-div {
+	padding: 8% 0%;
+}
+
+.timeline-circle {
+    text-align: center;
+    position: absolute;
+    top: 37px;
+    left: -11px;
+    background: #fff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #7db72c;
+}
+
+.inner-circle {
+	text-align: center;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    background: #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    /*border: 2px solid #7db72c;*/
+    background-image: linear-gradient(rgb(0,0,160), rgb(128,0,128));
+}
+
+.date-div {
+    font-size: 1.3rem;
+    color: rgb(77,107,119);
+    position: absolute;
+    font-weight: bold;
+}
+
+.date-div.en {
+	left: -190px;
+    top: 18px;
+}
+
+.date-div.ar {
+	right: -190px;
+	top: 18px;
+}
+
+#main-container {
+    padding: 3% 1%!important;
+    margin: auto 1%!important;
+}
+
+.img-plus {
+    width: 70px;
+}
+
+#timeline a {
+    margin: 0% 2%;
+}
+
+.round-gradiant {
+  /*width: 40px;
+  height: 40px;
+  border: double 4px transparent;
+  border-radius: 40px;
+  background-image: linear-gradient(rgb(0,0,160), rgb(128,0,128)), radial-gradient(circle at top left, green,green);
+  background-origin: border-box;
+  background-clip: content-box, border-box;*/
+}
+
+/*.glyphicon-plus-sign:before {
+    content: "\e081";
+}
+
+.glyphicon {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    position: relative;
+    top: 1px;
+}*/
+
+.container-menu {
+  position: relative;
+   background: linear-gradient(to right, #0061a5, #279574);
+   width: -webkit-fill-available;
+   height: 100px;
+}
+
+.col-12 input, .col-12 textarea {
+	opacity: .9;
+    border: 1px solid rgba(228, 228, 228, 1);
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.04);
+}
+
+.button-div-css {
+	display: flex;
+	justify-content: center;
+}
+
+.button-div-css button:nth-child(2) span {
+	opacity: .5;
+}
+
+.button-div-css button:nth-child(1) span {
+	color: white;
+}
+.pirvacy-title {
+	font-size: 1em;
+}
+
+#count_message {
+	color: rgb(49,176,212);
+}
+/* Hide the browser's default radio button */
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.container {
+    padding-left: 4%!important;
+    font-size: .8em!important;
+    }
+    
+label.container {
+    opacity: .5;
+}
+    
+/* Style the indicator (dot/circle) */
+.container .checkmark:after {
+    left: 11px;
+    top: 7px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.dialog-button-custom-css {
+	background-color: rgb(255,132,0)!important;
+}
+.dialog-custom-class {
+	border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgb(4,47,63);
+    }
+
+#timelineUl li {
+	padding: 0% 2%;
+}
+
+li.timeline-inverted .badge-ar {
+	left: -12px!important;
+	right: auto!important;
+}
+
+li.timeline-inverted .badge-en {
+	right: -12px;
+}
+.privacy-column {
+	flex-direction: column;
+}
+.privacy-edit {
+	display: flex;
+    justify-content: space-between;
+}
+
+.privacy-edit a {
+	padding: 0% 10%!important;
+    margin: auto;
+ }
+
+.bg-green {
+	background-color: rgba(102, 208, 105, 1);
+}
+
+.bg-transparent {
+	background-color: transparent;
+}
+
+.title-span {
+	font-size: 2rem;
+	color: rgb(77,107,119);
+}
+
+.short-desription {
+	font-size: 1rem;
+	opacity: .5;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+}
+
+.top-header-journey {
+	display: flex;
+    justify-content: space-between;
+    padding: 0% 4%;
+}
+
+span.category-span {
+    border-top: solid 4px rgb(163, 83, 166);
+    color: rgb(163, 83, 166);
+    padding: 2% 0%;
+    font-weight: bold;
+}
+
+.privacy-span {
+    width: fit-content;
+    display: flex;
+}
+
+.timeline-heading img {
+	display: none;
+}
+
+#Description.ar {
+	text-align: right;
+}
+
+#Description.en {
+	text-align: left;
+}
+
+#count_message {
+	padding-top: 2%;
+}
+div.radio {
+	margin: 10px 6px!important;
+}
+
+div.col-12 input {
+	padding: 1%; 0%;
+}
+
+div.col-12 {
+	padding: 2% 0%;
+}
+
+.stock-images {
+	padding : .25em 0%;
+}
+
+.stock-images .image {
+ /* opacity: 0.7;
+  width: 100%;
+  height: 160px;
+  background-position: center center;
+  background-color: gray;
+  backgroud-size: contain;
+  background-repeat: no-repeat;*/
+}
+.stock-images .image:hover {
+  opacity: 1;
+}
+.stock-images [type="radio"] {
+  display: none;
+}
+.stock-images [type="radio"] + label {
+    width: 150px;
+    height: 97px;
+    /* padding: 0; */
+    text-align: center;
+    border: 1.5px solid;
+    border-color: rgb(192,192,192, 0.4);
+    border-radius: 5px;
+}
+
+.stock-images [type="radio"] + label span {
+	color: gray;
+	font-weight: 500;
+	font-family: Montserrat Regular;
+}
+
+.stock-images [type="radio"]:not(:checked) + label .image {
+    /*border: 0px;
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+    height: 59px;
+    background-size: 30%!important;
+    background: url(/o/journey/images/0.svg);
+    margin-top: 3%;*/
+}
+.label-checked {
+  border: 1.5px solid rgba(12, 162, 205, 1)!important;
+    border-radius: 5px
+}
+
+
+.timeline {
+	list-style: none;
+	padding: 20px 0 20px;
+	position: relative;
+	margin-bottom: 0%;
+}
+
+.timeline:before {
+	top: 0;
+	bottom: 0;
+	position: absolute;
+	content: " ";
+	width: 3px;
+	background-color: #eeeeee;
+	left: 50%;
+	margin-left: -1.5px;
+}
+
+.timeline>li {
+	margin-bottom: 20px;
+	position: relative;
+	width: 50%;
+	float: left;
+	clear: left;
+}
+
+.timeline>li:before, .timeline>li:after {
+	content: " ";
+	display: table;
+}
+
+.timeline>li:after {
+	clear: both;
+}
+
+.timeline>li:before, .timeline>li:after {
+	content: " ";
+	display: table;
+}
+
+.timeline>li:after {
+	clear: both;
+}
+
+.timeline>li>.timeline-panel {
+	width: 95%;
+	float: left;
+	border: 1px solid #d4d4d4;
+	/*border-radius: 2px;*/
+	/*padding: 20px;*/
+	position: relative;
+	-webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+	box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+}
+
+.timeline>li>.timeline-panel:before {
+	position: absolute;
+	top: 26px;
+	right: -15px;
+	display: inline-block;
+	border-top: 15px solid transparent;
+	border-left: 15px solid #ccc;
+	border-right: 0 solid #ccc;
+	border-bottom: 15px solid transparent;
+	content: " ";
+}
+
+.timeline>li>.timeline-panel:after {
+	position: absolute;
+	top: 27px;
+	right: -14px;
+	display: inline-block;
+	border-top: 14px solid transparent;
+	border-left: 14px solid #fff;
+	border-right: 0 solid #fff;
+	border-bottom: 14px solid transparent;
+	content: " ";
+}
+
+.timeline>li>.timeline-badge {
+	color: #fff;
+	width: 48px;
+	height: 48px;
+	line-height: 50px;
+	font-size: 1.4em;
+	text-align: center;
+	position: absolute;
+    top: 15px;
+	right: -12px;
+	z-index: 100;
+	width: 50px;
+    height: 50px;
+    transform: translateX(13px);
+	/*
+  border-top-right-radius: 50%;
+  border-top-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+  */
+}
+
+.timeline>li.timeline-inverted> .timeline-badge {
+	transform: translateX(-13px);
+}
+
+.timeline>li>.timeline-badge img {
+	width: 25px;
+	height: 25px;
+}
+
+.timeline>li.timeline-inverted>.timeline-panel {
+	float: right;
+}
+
+.timeline>li.timeline-inverted>.timeline-panel:before {
+	border-left-width: 0;
+	border-right-width: 15px;
+	left: -15px;
+	right: auto;
+}
+
+.timeline>li.timeline-inverted>.timeline-panel:after {
+	border-left-width: 0;
+	border-right-width: 14px;
+	left: -14px;
+	right: auto;
+}
+
+.timeline-badge>a {
+	color: #C5C7C5 !important;
+}
+
+.timeline-badge a:hover {
+	color: #000 !important;
+}
+
+.timeline-title {
+	margin-top: 0;
+	color: inherit;
+}
+
+.timeline-body>p, .timeline-body>ul {
+	padding: 20px;
+	margin-bottom: 0;
+	overflow-wrap: break-word;
+}
+
+.timeline-body>p+p {
+	margin-top: 5px;
+}
+
+.timeline-footer {
+    padding: 0px 20px;
+    word-wrap: break-word;
+	/*background-color: #f4f4f4;*/
+}
+
+.timeline-footer>a {
+	cursor: pointer;
+	text-decoration: none;
+}
+
+.tooltip {
+	position: absolute;
+	z-index: 1020;
+	display: block;
+	visibility: visible;
+	padding: 5px;
+	font-size: 11px;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+}
+
+.tooltip.in {
+	/*opacity:0;
+    filter:alpha(opacity=80);*/
+	
+}
+
+.tooltip.top {
+	margin-top: -2px;
+}
+
+.tooltip.right {
+	margin-left: 2px;
+}
+
+.tooltip.bottom {
+	margin-top: 2px;
+}
+
+.tooltip.left {
+	margin-left: -2px;
+}
+
+.tooltip.top .tooltip-arrow {
+	bottom: 0;
+	left: 0;
+	margin-left: 0;
+	border-left: 0 solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 0 solid #000;
+}
+
+.tooltip.left .tooltip-arrow {
+	bottom: 0;
+	left: 0;
+	margin-left: 0;
+	border-left: 0 solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 0 solid #000;
+}
+
+.tooltip.bottom .tooltip-arrow {
+	bottom: 0;
+	left: 0;
+	margin-left: 0;
+	border-left: 0 solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 0 solid #000;
+}
+
+.tooltip.right .tooltip-arrow {
+	bottom: 0;
+	left: 0;
+	margin-left: 0;
+	border-left: 0 solid transparent;
+	border-right: 5px solid transparent;
+	border-top: 0 solid #000;
+}
+
+.tooltip-inner {
+	width: 200px;
+	padding: 3px 8px;
+	color: #fff;
+	text-align: center;
+	text-decoration: none;
+	background-color: #313131;
+	-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius: 0px;
+}
+
+.tooltip-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+
+.timeline>li.timeline-inverted {
+	float: right;
+	clear: right;
+	margin-top: 30px;
+	margin-bottom: 30px;
+}
+
+.timeline>li:nth-child(2) {
+	margin-top: 60px;
+}
+
+.timeline>li.timeline-inverted>.timeline-badge {
+	left: -12px;
+	background-repeat: no-repeat!important;
+    background-position: center!important;
+    background-size: contain;
+    background-image: url(/o/journey/images/Circle.svg);
+}
+
+.timeline>li>.timeline-badge {
+	background-repeat: no-repeat!important;
+    background-position: center!important;
+    background-size: contain;
+    background-image: url(/o/journey/images/Circle.svg);
+}
+
+@media ( max-width : 767px) {
+	ul.timeline:before {
+		left: 40px;
+	}
+	ul.timeline>li {
+		margin-bottom: 20px;
+		position: relative;
+		width: 100%;
+		float: left;
+		clear: left;
+	}
+	ul.timeline>li>.timeline-panel {
+		width: calc(100% - 90px);
+		width: -moz-calc(100% - 90px);
+		width: -webkit-calc(100% - 90px);
+	}
+	ul.timeline>li>.timeline-badge {
+		left: 28px;
+		margin-left: 0;
+		top: 16px;
+	}
+	ul.timeline>li>.timeline-panel {
+		float: right;
+	}
+	ul.timeline>li>.timeline-panel:before {
+		border-left-width: 0;
+		border-right-width: 15px;
+		left: -15px;
+		right: auto;
+	}
+	ul.timeline>li>.timeline-panel:after {
+		border-left-width: 0;
+		border-right-width: 14px;
+		left: -14px;
+		right: auto;
+	}
+	.timeline>li.timeline-inverted {
+		float: left;
+		clear: left;
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	.timeline>li.timeline-inverted>.timeline-badge {
+		left: 28px;
+	}
+}
+
+form div.col-2 {
+	display: none;
+}
+
+div.col-12 input {
+width: 100%;
+}
+
+div.col-12 input [type=textarea] {
+
+}
+
+.categoryClass {
+	padding: 0% 0% 3%;
+	color: rgb(4,47,63);
+    font-weight: 700;
+}
+
+#participant-section {
+    background-color: #4a4b54;
+    background-image: linear-gradient(to right, #0061a5, #279574);
+    min-height: 250px;
+    padding-top: 6%;
+}
+
+#intro-title h3 {
+    font-family: Montserrat-Regular!important;
+    font-size: 24px !important;
+    color: #ffffff !important;
+}
+
+#intro-title h3 span {
+	    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+}
+
+#intro-title h1 {	
+    color: white;
+    font-weight: 600;
+    margin-bottom: 20px!important;
+}
+
+#intro-title {
+    padding-bottom: 1% !important;
+    margin-left: 10%;
+}
+
+</style>
+<liferay-portlet:resourceURL var="resourceUrl1">
+	<liferay-portlet:param name="param1" value="Value1" />
+</liferay-portlet:resourceURL>
+<div id="dialog-form" title="<liferay-ui:message key='CreateJourney' />">
+	<form>
+		<fieldset>
+		<input type="hidden" name="baseUrl" id="baseUrl" value="<%=baseUrl %>">
+		<div class="row" style="display:none;">
+					<div class="col-2">
+						<label for="journeyId">ID</label>
+					</div>
+					<div class="col-12">
+						<input type="text" name="journeyId" id="journeyId">
+					</div>
+				</div>
+		
+			<div class="row">
+				<div class="col-2">
+					<label for="Title"><liferay-ui:message key="Title" /></label>
+				</div>
+				<div class="col-12">
+					<input type="text" maxlength="70" name="Title" id="Title" placeholder="<liferay-ui:message key="Title" />">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<label for="ShortDescription"><liferay-ui:message key="ShortDescription" /></label>
+				</div>
+				<div class="col-12">
+					<input type="text" name="ShortDescription" maxlength="70" id="ShortDescription" placeholder="<liferay-ui:message key="ShortDescription" />">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<label for="Date"><liferay-ui:message key="Date" /></label>
+				</div>
+				<div class="col-12">
+					<input type="date" value="<%=dateOfBirth%>" name="Date" id="Date" class="form-control" placeholder="<liferay-ui:message key="Date" />" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<label for="Description"><liferay-ui:message key="Description" /></label>
+				</div>
+				<div class="col-12">
+					<textarea value="" class="form-control" maxlength="300" cols="50" rows="4" name="Description" id="Description" placeholder="<liferay-ui:message key="Description" />">
+					</textarea>
+					<h6 class="pull-right" id="count_message"></h6>
+				</div>
+			</div>
+			<div class="col-md-12 categoryClass">
+				<span><liferay-ui:message key="Category" /></span>
+			</div>
+			<%-- <div class="row stock-images">
+				<div class="col-3 s6 m3" id="test22"><input id="test0" name="category" type="radio" value="0" /><label for="test0">
+	            	<div class="image" style="background-repeat: no-repeat!important; background-position: center!important; height: 65px; background-size: 42%!important; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/0.svg")%>)"></div><span><liferay-ui:message key="Employment" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3 displayNone" id="test33"><input id="test0" name="category" type="radio" value="0" /><label for="test0">
+	            	<div class="image" style="background-repeat: no-repeat!important; background-position: center!important; height: 65px; background-size: 42%!important; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/0-selected.svg")%>)"></div><span><liferay-ui:message key="Employment" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3"><input id="test1" name="category" type="radio" value="1" /><label for="test1">
+	            	<div class="image" style="background-repeat: no-repeat!important; background-position: center!important; height: 65px; background-size: 42%!important; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/1.svg")%>)"></div><span><liferay-ui:message key="Education" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3"><input id="test2" name="category" type="radio" value="2"/><label for="test2">
+	            	<div class="image" style="background-repeat: no-repeat!important; background-position: center!important; height: 65px; background-size: 42%!important; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/2.svg")%>)"></div><span><liferay-ui:message key="Training" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3"><input id="test3" name="category" type="radio" value="3" /><label for="test3">
+	            	<div class="image" style="background-repeat: no-repeat!important; background-position: center!important; height: 65px; background-size: 42%!important; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/3.svg")%>)"></div><span><liferay-ui:message key="Community" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        </div> --%>
+	        <div class="row stock-images">
+				<div class="col-3 s6 m3" id="category-div-0"><input id="test0" name="category" type="radio" value="0" /><label for="test0">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/0-gray.svg")%>)"></div><span><liferay-ui:message key="Employment" /></span>
+	          </label>
+	        </div>
+	        <div class="col-3 s6 m3 displayNone" id="category-div-0-selected"><input id="test0" name="category" type="radio" value="0" /><label class="label-checked" for="test0">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/0-selected.svg")%>)"></div><span><liferay-ui:message key="Employment" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3" id="category-div-1"><input id="test1" name="category" type="radio" value="1" /><label for="test1">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/1-gray.svg")%>)"></div><span><liferay-ui:message key="Education" /></span>
+	          </label>
+	        </div>
+			<div class="col-3 s6 m3 displayNone" id="category-div-1-selected"><input id="test1" name="category" type="radio" value="1" /><label class="label-checked" for="test1">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/1-selected.svg")%>)"></div><span><liferay-ui:message key="Education" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3" id="category-div-2"><input id="test2" name="category" type="radio" value="2"/><label for="test2">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/2-gray.svg")%>)"></div><span><liferay-ui:message key="Training" /></span>
+	          </label>
+	        </div>
+			 <div class="col-3 s6 m3 displayNone" id="category-div-2-selected"><input id="test2" name="category" type="radio" value="2"/><label class="label-checked" for="test2">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/2-selected.svg")%>)"></div><span><liferay-ui:message key="Training" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3" id="category-div-3"><input id="test3" name="category" type="radio" value="3" /><label for="test3">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/3-gray.svg")%>)"></div><span><liferay-ui:message key="Community" /></span>
+	          </label>
+	        </div>
+			<div class="col-3 s6 m3 displayNone" id="category-div-3-selected"><input id="test3" name="category" type="radio" value="3" /><label class="label-checked" for="test3">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/3-selected.svg")%>)"></div><span><liferay-ui:message key="Community" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        </div>
+			<div class="row stock-images">
+	        <div class="col-3 s6 m3" id="category-div-4"><input id="test4" name="category" type="radio" value="4" /><label for="test4">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/4-gray.svg")%>)"></div><span><liferay-ui:message key="Events" /></span>
+	          </label>
+	        </div>
+			<div class="col-3 s6 m3 displayNone" id="category-div-4"><input id="test4" name="category" type="radio" value="4" /><label class="label-checked" for="test4">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/4-selected.svg")%>)"></div><span><liferay-ui:message key="Events" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3" id="category-div-5"><input id="test5" name="category" type="radio" value="5" /><label for="test5">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/5-gray.svg")%>)"></div><span><liferay-ui:message key="Projects" /></span>
+	          </label>
+	        </div>
+			<div class="col-3 s6 m3 displayNone" id="category-div-5"><input id="test5" name="category" type="radio" value="5" /><label class="label-checked" for="test5">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/5-selected.svg")%>)"></div><span><liferay-ui:message key="Projects" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3" id="category-div-6"><input id="test6" name="category" type="radio" value="6" /><label for="test6">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/6-gray.svg")%>)"></div><span><liferay-ui:message key="MyInterests" /></span>
+	          </label>
+	        </div>
+			<div class="col-3 s6 m3 displayNone" id="category-div-6"><input id="test6" name="category" type="radio" value="6" /><label class="label-checked" for="test6">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/6-selected.svg")%>)"></div><span><liferay-ui:message key="MyInterests" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+	        <div class="col-3 s6 m3" id="category-div-7"><input id="test7" name="category" type="radio" value="7" /><label for="test7">
+	            	<div class="image" style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/7-gray.svg")%>"></div><span><liferay-ui:message key="Volounteering" /></span>
+	          </label>
+	        </div>
+			<div class="col-3 s6 m3 displayNone" id="category-div-7"><input id="test7" name="category" type="radio" value="7" /><label class="label-checked" for="test7">
+	            	<div class="image selected-radio " style="border: 0px; background-repeat: no-repeat!important; background-position: center!important; height: 59px; background-size: 30%!important; margin-top: 3%; background: url(<%=renderResponse.encodeURL(renderRequest.getContextPath() +
+"/images/7-selected.svg")%>"></div><span><liferay-ui:message key="Volounteering" /></span>
+	          </label><clay:icon symbol="check" />
+	        </div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<label for="Tag"><liferay-ui:message key="Tag" /></label>
+				</div>
+				<div class="col-12">
+					<input type="text" maxlength="70" name="Tag" id="Tag" placeholder="<liferay-ui:message key="Tag" />">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<label for="pic">Picture</label>
+				</div>
+				<!-- <div class="col-8">
+					<input type="file" name="pic" id="pic" accept="image/*"
+						onchange="addPicture()">
+					<div id="uploadJourneyPic"></div>
+				</div> -->
+			</div>
+			<label><span class="pirvacy-title"><liferay-ui:message key="privacy" /></span></label>
+			<div class="row privacy-column">
+				<div class="radio radio-1">	
+				  <label class="container"><span class="privacy-check"><clay:icon symbol="check" /></span><input type="radio" name="privacy" value="1" checked><liferay-ui:message key="public" /></label>
+				</div>
+				<div class="radio">
+				  <label class="container"><span class="privacy-check"><clay:icon symbol="check" /></span><input type="radio" name="privacy" value="2"><liferay-ui:message key="private" /></label>
+				</div>
+			</div>
+			<!-- Allow form submission with keyboard without duplicating the dialog button -->
+			<input type="submit" tabindex="-1"
+				style="position: absolute; top: -1000px">
+		</fieldset>
+	</form>
+</div>
+<div id="participant-section">
+<div id="intro-title" class="container">
+    <h3><liferay-ui:message key='Journey' /></h3>
+            <h1><liferay-ui:message key='MyJourney' /></h1>
+    </div>
+</div>
+
+<div id="main-container" class="container">
+	<div class="text-center col-md-12" direction="ltr">
+		<h1 id="timeline" class="<%=langId%>">
+			 <a href="javascript:openDialog()"><img class="img-responsive img-plus" src="<%=imageUrl%>"></img></a><liferay-ui:message key="journeys" />
+		</h1>
+	</div>
+	<ul class="timeline" id="timelineUl">
+
+	</ul>
+	<div class="row div-green-dot"><span class=""></span></div>
+</div>
+
+
+
+<%-- <div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th><liferay-ui:message key="serviceName" /></th>
+		<th><liferay-ui:message key="serviceAvailability" /></th>
+		<th><liferay-ui:message key="serviceAccuracy" /></th>
+      </tr>
+    </thead>
+    <tbody>
+		<c:forEach items="${journies}" var="survey">
+	      <tr>
+	        <th scope="row">${survey.Title}</th>
+	        <td>${survey.getShortDescription()}</td>
+			<td>${survey.Date}</td>
+	      </tr>
+		</c:forEach>
+    </tbody>
+  </table> --%>
+
+<script>
+function refreshCategory () {
+	$('.stock-images [type="radio"] + label div.image:not(.selected-radio)').closest('.col-3.s6.m3').removeClass('displayNone');
+	$('.stock-images [type="radio"] + label div.image.selected-radio').closest('.col-3.s6.m3').addClass('displayNone');
+}
+var text_max = 300;
+$('#count_message').html('0 / ' + text_max);
+$('#Description').keyup(function() {
+  var text_length = $('#Description').val().length;
+  var text_remaining = text_length + '/' + text_max;
+  
+  $('#count_message').html(text_remaining);
+});
+	var dialog;
+	var form;
+	var journeys = [];
+
+	var categoryValues = [];
+	categoryValues.push('Employment');
+	categoryValues.push('Education');
+	categoryValues.push('Training');
+	categoryValues.push('Community');
+	categoryValues.push('Events');
+	categoryValues.push('Projects');
+	categoryValues.push('My Interests');
+	categoryValues.push('Volunteering');
+	$(document).ready(function() {
+		$('.stock-images [type="radio"] + label').click(function (){
+			$('.stock-images [type="radio"] + label div.image:not(.selected-radio)').closest('.col-3.s6.m3').removeClass('displayNone');
+			$('.stock-images [type="radio"] + label div.image.selected-radio').closest('.col-3.s6.m3').addClass('displayNone');
+			console.log($(this).find('div.image:not(.selcted-radio)'));
+			$(this).find('div.image:not(.selected-radio)').closest('.col-3.s6.m3').addClass('displayNone');
+			console.log($(this).find('div.image:not(.selcted-radio)').closest('.col-3.s6.m3').find(' + div'));
+			$(this).find('div.image:not(.selected-radio)').closest('.col-3.s6.m3').find(' + div').removeClass('displayNone');
+		});
+		if (themeDisplay.getLanguageId() == 'ar_SA')
+		{
+			langVar = 'ar'; 
+		}
+		else
+		{
+			langVar = 'en'; 
+		}
+		console.log('langVar : ' + langVar);
+		$('.col-3.s6.m3').addClass(langVar);
+		$('.privacy-column .radio').click(function (){
+			$('input[name=privacy]:checked').closest('div.privacy-column').find('svg').css('background','white');
+			$('input[name=privacy]:checked').closest('div.privacy-column').find('span').css('background','white');
+			$('input[name=privacy]:checked').closest('div.privacy-column').find('span').css('border', '1px solid gray');
+			//console.log('ll : ' + $('input[name=privacy]:checked').closest('span.privacy-check').find('svg').length);
+			$('input[name=privacy]:checked').parent().find('svg').css('background','rgb(5,170,255)');
+			$('input[name=privacy]:checked').parent().find('span').css('background','rgb(5,170,255)');
+			$('input[name=privacy]:checked').parent().find('span').css('border','0px');
+		});
+		$('.my-dialog .ui-dialog').css('padding-top','5%');
+		//$('#main-container').css('padding-top',$('.navigation.start-header.start-style').outerHeight());
+		if (themeDisplay.getLanguageId() == 'ar_SA')
+			{
+				$('#Description').addClass('ar');
+				//langClass = 'ar';
+			}
+			else
+			{
+				$('#Description').addClass('en');
+				//langClass = 'en';
+			}
+		var journeySearch = {
+				op : "search",
+				userId: themeDisplay.getUserId(),
+		}
+		loadData(journeySearch);
+			//console.log("document ready :: " + journeys.length);
+		var my_posts = $("[rel=tooltip]");
+
+		var size = $(window).width();
+		for (i = 0; i < my_posts.length; i++) {
+			the_post = $(my_posts[i]);
+
+			if (the_post.hasClass('invert') && size >= 767) {
+				the_post.tooltip({
+					placement : 'left'
+				});
+				the_post.css("cursor", "pointer");
+			} else {
+				the_post.tooltip({
+					placement : 'rigth'
+				});
+				the_post.css("cursor", "pointer");
+			}
+		}
+		//console.log('journeyId : ' + $('#journeyId').val());
+		dialog = $("#dialog-form").dialog({
+			autoOpen : false,
+			height : 1100,
+			width : 650,
+			modal : true,
+			buttons : {
+				submit : function() {
+					if ((document.getElementById('journeyId').value) ==0) {
+						addJourney();
+					} else {
+						updateJourney();
+					}
+				},
+				"<liferay-ui:message key='cancel'/>" : function() {
+					dialog.dialog("close");
+				}
+			},
+			close : function() {
+				form[0].reset();
+				//document.getElementById('uploadJourneyPic').innerHTML = "";
+			}
+			, dialogClass: 'my-dialog'
+		});
+		$('.my-dialog .ui-dialog-titlebar-close.ui-corner-all').addClass('displayNone');
+		//$('.my-dialog .ui-dialog-titlebar').append('<clay:icon symbol="times" />');
+		/* $('.my-dialog .ui-icon.ui-icon-closethick').parent().click(function () {
+			console.log("dialog close");
+			dialog.dialog("close");
+		}); */
+		$('#dialog-form').css('display','none');
+
+		form = dialog.find("form").on("submit", function(event) {
+			event.preventDefault();
+			if ((document.getElementById('journeyId').value) == 0) {
+				addJourney();
+			} else {
+				updateJourney();
+			}
+
+		});
+
+		$("#create-journey").button().on("click", function() {
+			//$('.stock-images div.image').removeAttr('style');
+			//$('.stock-images div.image').addClass('custom-design');
+			refreshCategory();
+			dialog.dialog("open");
+		});
+	});
+
+	function openDialog() {
+		$('.privacy-column div.radio-1 svg').css('background','rgb(5,170,255)');
+		$('.privacy-column div.radio-1 span').css('background','rgb(5,170,255)');
+		//$('.privacy-column div:nth-child(2) svg').css('background','white');
+		$('.privacy-column div:nth-child(2) span').css('background','white');
+		$('.privacy-column div:nth-child(2) span').css('border', '1px solid gray');
+		$('#Description').val('');
+		$('.my-dialog .ui-dialog-titlebar').addClass('dialog-custom-class');
+		$('.my-dialog .ui-dialog-title').html("<liferay-ui:message key='CreateJourney'/>");
+		$('.my-dialog .ui-dialog-buttonpane').addClass('button-div-css');
+		$('.my-dialog .ui-dialog-buttonpane div button:nth-child(1)').addClass('dialog-button-custom-css');
+		$('.my-dialog .ui-dialog-buttonpane div button:nth-child(1) span').html("<liferay-ui:message key='CreateJourney'/>");
+		//$('.stock-images div.image').removeAttr('style');
+		//$('.stock-images div.image').addClass('custom-design');
+		/* $('.stock-images [type="radio"] + label').click(function (){
+			$('.stock-images [type="radio"]:checked + label div.image').removeClass('custom-design')
+			console.log('aaaaaaaaaa');
+			$('.stock-images [type="radio"]:checked + label div.image').css('background-image','url(/o/journey/images/0-selected.svg);');
+			$('.stock-images [type="radio"]:checked + label div.image').css('background-repeat','no-repeat!important;');
+			$('.stock-images [type="radio"]:checked + label div.image').css('background-position','center!important;');
+			$('.stock-images [type="radio"]:checked + label div.image').css('height','59px;');
+			$('.stock-images [type="radio"]:checked + label div.image').css('background-size','30%!important');
+			
+			$('.stock-images [type="radio"]:checked + label div.image').css('margin-top','3%!important;');
+		}); */
+		refreshCategory();
+		dialog.dialog("open");
+	}
+
+	function addJourney() {
+		//var pic = document.getElementById('uploadJourneyPic').innerHTML;
+		var Title = document.getElementById('Title').value;
+		var Description = document.getElementById('Description').value;
+		var ShortDescription = document.getElementById('ShortDescription').value;
+		var Date = document.getElementById('Date').value;
+		var category = $('.stock-images [type="radio"]:checked').closest('.col-3.s6.m3').find('input[type=radio]').val();
+		var Pirvacy = $('input[name=privacy]:checked').val();
+		var tag = document.getElementById('Tag').value;
+		var journey = {
+			journeyId : (journeys.length) + 1,
+			Title : Title.replace("'","''"),
+			Description : Description.replace("'","''"),
+			//picture : document.getElementById('pic1').src,
+			ShortDescription : ShortDescription.replace("'","''"),
+			Date : Date,
+			category : category,
+			Pirvacy : Pirvacy,
+			tag : tag,
+			userId: themeDisplay.getUserId(),
+			op : "add"
+		};
+		//journeys.push(journey);
+		callServeResource('add', journey);
+		dialog.dialog("close");
+		
+
+	}
+
+	function refreshTimeline() {
+		var langClass = "";
+		////console.log('refreshTimeline');
+		if (themeDisplay.getLanguageId() == 'ar_SA')
+			{ 
+				langClass = 'ar';
+			}
+			else
+			{
+				langClass = 'en';
+			}
+		var cls = '';
+		$("#timelineUl").empty();
+		//console.log("refreshTimeline : " + journeys.length);
+		var arabicMonth = new Object();
+			arabicMonth.January='<liferay-ui:message key="January"/>';
+			arabicMonth.February='<liferay-ui:message key="February"/>';
+			arabicMonth.March='<liferay-ui:message key="March"/>';
+			arabicMonth.April='<liferay-ui:message key="April"/>';
+			arabicMonth.May='<liferay-ui:message key="May"/>';
+			arabicMonth.June='<liferay-ui:message key="June"/>';
+			arabicMonth.July='<liferay-ui:message key="July"/>';
+			arabicMonth.August='<liferay-ui:message key="August"/>';
+			arabicMonth.September='<liferay-ui:message key="September"/>';
+			arabicMonth.October='<liferay-ui:message key="October"/>';
+			arabicMonth.November='<liferay-ui:message key="November"/>';
+			arabicMonth.December='<liferay-ui:message key="December"/>';
+		for (var i = 0; i < journeys.length; i++) {
+			var obj = journeys[i];
+			var privacyCssBackground = ((obj.Pirvacy == '1')?'bg-green':'bg-transparent');
+			var topHTML = '<div class="col-md-12 top-header-journey">'
+				+ '<span class="category-span">'
+				+ categoryValues[obj.Category]
+				+ '</span>'
+				+ '<div class="privacy-edit col-md-6">'
+				+'<div><a class="pull-right" href="javascript:deleteJourney('
+				+ obj.JourneyId
+				+ ')"><clay:icon symbol="times" /></a><a class="pull-right" href="javascript:editRow('
+				+ obj.JourneyId
+				+ ')"><clay:icon symbol="pencil" /></a>'
+				/* + '<a class="pull-right" href="javascript:deleteJourney('
+				+ obj.JourneyId
+				+ ')"><clay:icon symbol="times" /></a>' */
+				+'</div>'
+				+ '<div class="privacy-div"><div class="privacy-span rounded border border-secondary ' +privacyCssBackground + '">'
+				+ ((obj.Pirvacy == '1')?'<div class="privacy-icon-div ' + langClass + '">' + '<clay:icon symbol="view" />' + '</div>':'')
+				+ '<div class="privacy-vaule-div">' + ((obj.Pirvacy == '1')?'<liferay-ui:message key="Public"/>':'<liferay-ui:message key="Private"/>') + '</div>'
+				+ '</span></div>'
+				+ '</div>'
+				+ '</div>';
+			if (langClass == 'ar')
+			{
+				cls = '<li>';
+			}
+			else
+			{
+				cls = '<li  class="timeline-inverted">';
+			}
+			$("#timelineUl")
+					.append(
+							cls
+									+ '<div class="date-div ' + langClass + '"><span class="">'+eval('arabicMonth.'+obj.DateFormatted.split(' ')[1]) + '<br>' + obj.DateFormatted.split(' ')[0] + ', ' + obj.DateFormatted.split(' ')[2] + '</span></div><div class="timeline-badge primary"><div class="icon-img-center">'
+									+'<img src = "' + $('#baseUrl').val() + '/images/' + obj.Category + '.svg"></img></div></div>'//<i class="glyphicon glyphicon-record" rel="tooltip" Title="'+obj.Title+'" id="'+obj.JourneyId+'"></i>
+									+ '<div class="timeline-panel">'
+									+ '<div class="timeline-heading">'
+									+ topHTML
+									+ '</div>'
+									+ '<div class="timeline-footer">'
+									/*+ '<a class="pull-right" href="javascript:deleteJourney('
+									+ obj.JourneyId
+									+ ')"><clay:icon symbol="times" /></a>'*/
+									+ '<span class="title-span">' + obj.Title + '</span>'
+									+ '<br><span class="short-desription">' + obj.ShortDescription + '</span>' +'</div>'
+									+ '<div class="timeline-body">' + '<p class="description-p">'
+									+ obj.Description + '</p> ' + '</div>'
+									+ '</div>' + '</li>');
+			if (themeDisplay.getLanguageId() == 'ar_SA')
+			{
+				$('li.timeline-inverted .timeline-badge.primary').addClass('badge-ar');
+				
+			}
+			else
+			{
+				$('li.timeline-inverted .timeline-badge.primary').addClass('badge-en');
+			}
+		}
+		$("#timelineUl").append(
+				'<li class="clearfix" style="float: none;"></li>');
+	}
+
+	function addPicture() {
+		var fieldName = 'pic';
+		var tergetName = 'uploadJourneyPic';
+		var filesSelected = document.getElementById(fieldName).files;
+		if (filesSelected.length > 0) {
+			var fileToLoad = filesSelected[0];
+			var fileReader = new FileReader();
+			fileReader.onload = function(fileLoadedEvent) {
+				var srcData = fileLoadedEvent.target.result; // <--- data: base64
+				var newImage = document.createElement('img');
+				newImage.style.cssText = 'width:75px;height:75px;';
+				newImage.setAttribute("id", "pic1");
+				newImage.src = srcData;
+				document.getElementById(tergetName).innerHTML = newImage.outerHTML;
+			}
+			fileReader.readAsDataURL(fileToLoad);
+		}
+	}
+
+	function deleteRow() {
+		try {
+			var table = document.getElementById('journeys');
+			var rowCount = table.rows.length;
+			for (var i = 0; i < rowCount; i++) {
+				var row = table.rows[i];
+				var chkbox = row.cells[0].childNodes[0];
+				if (null != chkbox && true == chkbox.checked) {
+					table.deleteRow(i);
+					rowCount--;
+					i--;
+				}
+			}
+		} catch (e) {
+			alert(e);
+		}
+	}
+
+	function deleteJourney(journeyId) {
+		if (confirm("<liferay-ui:message key='deleteConfirm'/>"))
+			{
+		for (var i = 0; i < journeys.length; i++) {
+			var journey = journeys[i];
+			if (journey.JourneyId == journeyId) {
+				var journey = {
+						journeyId : journeyId,
+						op : "delete",
+						userId: themeDisplay.getUserId()
+					};
+				callServeResource('delete', journey);
+				journeys.splice(i, 1);
+				break;
+			}
+		}
+		refreshTimeline();
+			}
+	}
+
+	function updateJourney() {
+		var journeyId = document.getElementById('journeyId').value;
+		for (var i = 0; i < journeys.length; i++) {
+			var obj = journeys[i];
+			////console.log("obj.journeyId : " + obj.JourneyId);
+			////console.log("journeyId : " + journeyId);
+			if (obj.JourneyId == journeyId) {
+				var picName='timeLinePicture'+obj.journeyId;				
+				var journey = {
+						journeyId : journeyId,
+						Title : $('#Title').val().replace("'","''"),
+						Description : $('#Description').val().replace("'","''"),
+						//picture : document.getElementById('pic1').src,
+						ShortDescription : $('#ShortDescription').val().replace("'","''"),
+						Date : $('#Date').val(),
+						category : $('.stock-images [type="radio"]:checked').val(),
+						Pirvacy : $('input[name=privacy]:checked').val(),
+						tag : obj.tag.replace("'","''"),
+						userId: themeDisplay.getUserId(),
+						op : "update"
+					};
+				//console.log('aaa : ' + $('input[name=privacy]:checked').val());
+				callServeResource('update', journey);
+				//journeys[i] = journey;				
+				break;
+			}
+		}
+		dialog.dialog("close");
+	}
+
+	function editRow(journeyId) {
+		try {
+			for (var i = 0; i < journeys.length; i++) {
+				var obj = journeys[i];
+				if (obj.JourneyId == journeyId) {
+					$('input[id=journeyId]').val(obj.JourneyId);
+					$('input[id=Title]').val(obj.Title);
+					$('textarea[id=Description]').val(obj.Description);
+					$('input[id=ShortDescription]').val(obj.ShortDescription);
+					$('input[id=Date]').val(obj.Date);
+					$('input[id=Tag]').val(obj.tag);
+					console.log("obj.JourneyId : " + obj.JourneyId);
+					$('#test'+obj.Category).prop("checked", true);
+					if (obj.Pirvacy == '1')
+						{
+						$('.privacy-column div.radio-1 svg').css('background','rgb(5,170,255)');
+						$('.privacy-column div.radio-1 span').css('background','rgb(5,170,255)');
+						$('.privacy-column div:nth-child(2) svg').css('background','white');
+						$('.privacy-column div:nth-child(2) span').css('background','white');
+						$('.privacy-column div:nth-child(2) span').css('border', '1px solid gray');
+						}
+					else
+						{
+						$('.privacy-column div:nth-child(2) svg').css('background','rgb(5,170,255)');
+						$('.privacy-column div:nth-child(2) span').css('background','rgb(5,170,255)');
+						$('.privacy-column div:nth-child(1) svg').css('background','white');
+						$('.privacy-column div:nth-child(1) span').css('background','white');
+						$('.privacy-column div:nth-child(1) span').css('border', '1px solid gray');
+						}
+					var newImage = document.createElement('img');
+					newImage.style.cssText = 'width:75px;height:75px;';
+					newImage.setAttribute("id", "pic1");
+					newImage.src = obj.picture;
+					//document.getElementById("uploadJourneyPic").innerHTML = newImage.outerHTML;
+					//console.log($(dialog));
+					$('.my-dialog .ui-dialog-title').html("<liferay-ui:message key='updateJourney'/>");
+					$('.my-dialog .ui-button-text').first().html("<liferay-ui:message key='updateJourney'/>");
+					$('.my-dialog .ui-dialog-title').html("<liferay-ui:message key='updateJourney'/>");
+					$('.my-dialog .ui-dialog-titlebar').addClass('dialog-custom-class');
+					/* $('.stock-images div.image').removeAttr('style');
+					$('.stock-images div.image').addClass('custom-design'); */
+					refreshCategory();
+					console.log("test test");
+					console.log($('input[id=test'+obj.Category+']').closest('.col-3.s6.m3'));
+					$('input[id=test'+obj.Category+']').closest('.col-3.s6.m3').addClass('displayNone');
+					console.log($('input[id=test'+obj.Category+']').closest('.col-3.s6.m3').find(' + div'));
+					$('input[id=test'+obj.Category+']').closest('.col-3.s6.m3').find(' + div').removeClass('displayNone');
+					/* $('#dialog-form').css('display','block');
+					$('.my-dialog').css('display','block'); */
+					$('.my-dialog .ui-dialog-buttonpane').addClass('button-div-css');
+					$('.my-dialog .ui-dialog-buttonpane div button:nth-child(1)').addClass('dialog-button-custom-css');
+					$('.my-dialog .ui-dialog-buttonpane div button:nth-child(1) span').html("<liferay-ui:message key='updateJourney'/>");
+					dialog.dialog("open");
+				}
+			}
+		} catch (e) {
+			alert(e);
+		}
+	}
+	
+	function logObj (p){//console.log("p == " + p);
+	for (var key in p) {
+		  if (p.hasOwnProperty(key)) {
+		    //console.log(key + " -> " + p[key]);
+		  }
+		}
+	}
+
+	function callServeResource(op, obj) {
+		////console.log("title : " + obj["ShortDescription"]);
+		var Title = obj["Title"];
+		var Description = obj["Description"];
+		var picture = obj["picture"];
+		var journeyId = obj["journeyId"];
+		var Date = obj["Date"];
+		var ShortDescription = obj["ShortDescription"];
+		var Category = obj["Category"];
+		var Pirvacy = obj["Pirvacy"];
+		var picture = obj["pictureBlob"];
+
+		AUI().use('aui-io-request', function(A) {
+			A.io.request('${resourceUrl1}', {
+				method : 'post',
+				data : {
+					op : op,
+					<portlet:namespace />Title : Title,
+					<portlet:namespace />ShortDescription : ShortDescription,
+					<portlet:namespace />Date : Date,
+					<portlet:namespace />Description : Description,
+					<portlet:namespace />Category : Category,
+					<portlet:namespace />Pirvacy : Pirvacy,
+					<portlet:namespace />pictureBlob : picture,
+					<portlet:namespace />obj : JSON.stringify(obj),
+				},
+				on : {
+					success : function() {
+						var jsonObj = $.parseJSON(this.get('responseData'));
+						//console.log(jsonObj);
+						journeys= [];
+						for (var i=0; i < jsonObj.length; i++)
+						{
+							var journey1 = new Object();
+							////console.log(${journies}[i].JourneyId);
+							journey1.JourneyId = jsonObj[i].JourneyId;
+							journey1.Title = jsonObj[i].Title;
+							journey1.ShortDescription = jsonObj[i].ShortDescription;
+							journey1.Date = jsonObj[i].Date;
+							journey1.Description = jsonObj[i].Description;
+							journey1.Category = jsonObj[i].Category;
+							journey1.Pirvacy = jsonObj[i].Pirvacy;
+							journey1.tag = jsonObj[i].tag;
+							//////console.log('journey : ' + ${journies}[i].JourneyId);
+							journey1.DateFormatted = jsonObj[i].DateFormatted;
+							journeys.push(journey1);
+						}
+						refreshTimeline();
+					}
+				}
+			});
+
+		});
+	}
+	
+	function loadData(obj) {
+
+		AUI().use('aui-io-request', function(A) {
+			A.io.request('${resourceUrl1}', {
+				method : 'post',
+				async: false,
+				data : {
+					<portlet:namespace />obj : JSON.stringify(obj),
+				},
+				on : {
+					success : function(data) {
+						var jsonObj = $.parseJSON(this.get('responseData'));
+						journeys=[];
+						//console.log("jsonObj.length ::: " + jsonObj.length);
+						for (var i=0; i < jsonObj.length; i++)
+							{
+							////console.log("l : " + ${journies.length()});
+							var journey1 = new Object();
+								journey1.JourneyId = jsonObj[i].JourneyId;
+								journey1.Title = jsonObj[i].Title;
+								journey1.ShortDescription = jsonObj[i].ShortDescription;
+								journey1.Date = jsonObj[i].Date;
+								journey1.Description = jsonObj[i].Description;
+								journey1.Category = jsonObj[i].Category;
+								journey1.Pirvacy = jsonObj[i].Pirvacy;
+								journey1.tag = jsonObj[i].tag;
+								journey1.DateFormatted = jsonObj[i].DateFormatted;
+								//////console.log('journey : ' + jsonObj[i].JourneyId);
+								journeys.push(journey1);
+							}
+						refreshTimeline();
+					}
+				}
+			});
+
+		});
+	}
+</script>
