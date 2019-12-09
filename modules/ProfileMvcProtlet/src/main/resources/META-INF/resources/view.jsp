@@ -3980,17 +3980,7 @@
                                     <option id='Technicians (Performing Arts)'>Technicians (Performing Arts)</option>
                                     <option id='Technicians (Science)'>Technicians (Science)</option>
                                     <option id='Technicians and Trades Workers (not covered elsewhere)'>Technicians and Trades Workers (not covered elsewhere)</option>
-                                    <option id='Telecommunications Cable Jointers'>Telecommunications Cable Jointers</option>
-                                    <option id='Telecommunications Engineering Professionals'>Telecommunications Engineering Professionals</option>
-                                    <option id='Telecommunications Engineers'>Telecommunications Engineers</option>
-                                    <option id='Telecommunications Field Engineers'>Telecommunications Field Engineers</option>
-                                    <option id='Telecommunications Linesworkers'>Telecommunications Linesworkers</option>
-                                    <option id='Telecommunications Network Engineers'>Telecommunications Network Engineers</option>
-                                    <option id='Telecommunications Network Planners'>Telecommunications Network Planners</option>
-                                    <option id='Telecommunications Technical Officers and Technologists'>Telecommunications Technical Officers and Technologists</option>
-                                    <option id='Telecommunications Technical Specialists'>Telecommunications Technical Specialists</option>
-                                    <option id='Telecommunications Technicians'>Telecommunications Technicians</option>
-                                    <option id='Telecommunications Trades Workers'>Telecommunications Trades Workers</option>
+                                    <option id='Telecommunications'>Telecommunications</option>
                                     <option id='Telemarketers'>Telemarketers</option>
                                     <option id='Telephone Betting Clerks'>Telephone Betting Clerks</option>
                                     <option id='Telephone Operators'>Telephone Operators</option>
@@ -4068,7 +4058,6 @@
                                     <option id='Vehicle and Vehicle Parts Salespersons'>Vehicle and Vehicle Parts Salespersons</option>
                                     <option id='Vehicle Assemblers'>Vehicle Assemblers</option>
                                     <option id='Vehicle Body Builders'>Vehicle Body Builders</option>
-                                    <option id='Vehicle Body Builders and Trimmers'>Vehicle Body Builders and Trimmers</option>
                                     <option id='Vehicle Painters'>Vehicle Painters</option>
                                     <option id='Vehicle Parts and Accessories Fitters'>Vehicle Parts and Accessories Fitters</option>
                                     <option id='Vehicle Trimmers'>Vehicle Trimmers</option>
@@ -4121,8 +4110,7 @@
                                     <option id='Wool Handlers'>Wool Handlers</option>
                                     <option id='Word Processing Operators'>Word Processing Operators</option>
                                     <option id='Workplace Relations Advisers'>Workplace Relations Advisers</option>
-                                    <option id='Writers (Authors)'>Writers (Authors)</option>
-                                    <option id='Writers (Journalists and Others)'>Writers (Journalists and Others)</option>
+                                    <option id='Writers'>Writers</option>
                                     <option id='Yarn Carding and Spinning Machine Operators'>Yarn Carding and Spinning Machine Operators</option>
                                     <option id='Youth Workers'>Youth Workers</option>
                                     <option id='Zookeepers'>Zookeepers</option>
@@ -4775,12 +4763,13 @@
     }
     function deleteProfileRow(rowindex,id,command,action,tableId) {
         swal({
-                title: "Are you sure?",
-                text:  "You will not be able to recover this Record!",
+                title: "<liferay-ui:message key='Areyousure'/>",
+                text:  "<liferay-ui:message key='deleteConfirm'/>",
                 type:  "warning",
                 showCancelButton: true,
+                cancelButtonText: "<liferay-ui:message key='cancel'/>",
                 confirmButtonColor: '#DD6B55',
-                confirmButtonText: 'Yes, delete it!',
+                confirmButtonText: "<liferay-ui:message key='Yesdeleteit'/>",
                 closeOnConfirm: true,
                 //closeOnCancel: false
             },
@@ -4840,8 +4829,7 @@
                                     jQuery('#testimonialitem div').html('');
                                     getprofileDetails('userTestimonial','getProfileInfo',obj);
                                 }
-//  		                        		   }
-//  		                        		);
+//  		                        		   });
                             }
                         }
                     });

@@ -945,8 +945,7 @@ $('#Description').keyup(function() {
 				dialog.dialog("close");
 			}
 		else
-			alert(checkFields());
-		
+		swal(checkFields());
 
 	}
 
@@ -1077,8 +1076,17 @@ $('#Description').keyup(function() {
 	}
 
 	function deleteJourney(journeyId) {
-		if (confirm("<liferay-ui:message key='deleteConfirm'/>"))
-			{
+		swal({
+					title: "<liferay-ui:message key='Areyousure'/>",
+					text:  "<liferay-ui:message key='deleteConfirm'/>",
+					type:  "warning",
+					showCancelButton: true,
+					cancelButtonText: "<liferay-ui:message key='cancel'/>",
+					confirmButtonColor: '#DD6B55',
+					confirmButtonText: "<liferay-ui:message key='Yesdeleteit'/>",
+					closeOnConfirm: true,
+				},
+				function(){
 		for (var i = 0; i < journeys.length; i++) {
 			var journey = journeys[i];
 			if (journey.JourneyId == journeyId) {
@@ -1088,12 +1096,15 @@ $('#Description').keyup(function() {
 						userId: themeDisplay.getUserId()
 					};
 				callServeResource('delete', journey);
+				swal({title: "<liferay-ui:message key='Yourrecordhasbeendeleted'/>", text: "", type: "success"},
+ 		                        		   function(){
 				journeys.splice(i, 1);
+			});
 				break;
 			}
 		}
 		refreshTimeline();
-			}
+				});
 	}
 
 	function updateJourney() {
@@ -1124,7 +1135,7 @@ $('#Description').keyup(function() {
 					dialog.dialog("close");
 				}
 				else
-					alert(checkFields());
+					swal(checkFields());
 				//callServeResource('update', journey);
 				//journeys[i] = journey;				
 				break;
